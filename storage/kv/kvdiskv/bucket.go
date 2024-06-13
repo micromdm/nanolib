@@ -9,7 +9,7 @@ import (
 	"github.com/micromdm/nanolib/storage/kv"
 )
 
-// Get retreives the value at key in the diskv store.
+// Get retrieves the value at key in the diskv store.
 // If key is not found then a wrapped ErrKeyNotFound will be returned.
 func (b *KVDiskv) Get(_ context.Context, key string) ([]byte, error) {
 	r, err := b.diskv.Read(key)

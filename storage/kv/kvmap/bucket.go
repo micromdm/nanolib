@@ -7,7 +7,7 @@ import (
 	"github.com/micromdm/nanolib/storage/kv"
 )
 
-// Get retreives the value at key in the Go map.
+// Get retrieves the value at key in the Go map.
 // If key is not found then a wrapped ErrKeyNotFound will be returned.
 func (s *KVMap) Get(_ context.Context, key string) ([]byte, error) {
 	s.mu.RLock()

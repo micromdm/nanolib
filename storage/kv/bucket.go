@@ -12,7 +12,7 @@ type ROBucket interface {
 	// Has checks that key can be found.
 	Has(ctx context.Context, key string) (found bool, err error)
 
-	// Get retreives value at key.
+	// Get retrieves value at key.
 	// If key is not found then ErrKeyNotFound should be
 	// returned in the error chain.
 	Get(ctx context.Context, key string) (value []byte, err error)

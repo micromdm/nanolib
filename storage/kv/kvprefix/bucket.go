@@ -4,7 +4,7 @@ import (
 	"context"
 )
 
-// Get retreives the value at key in the underlying store.
+// Get retrieves the value at key in the underlying store.
 // The key is preprended with the prefix.
 func (b *KVPrefix) Get(ctx context.Context, key string) ([]byte, error) {
 	return b.store.Get(ctx, b.prefix+key)
