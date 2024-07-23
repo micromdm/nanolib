@@ -16,7 +16,7 @@ func SetMap(ctx context.Context, b RWBucket, m map[string][]byte) error {
 	return nil
 }
 
-// SetMap iterates over keys to get the values in b and returns any error immediately.
+// GetMap iterates over keys to get the values in b and returns any error immediately.
 func GetMap(ctx context.Context, b ROBucket, keys []string) (map[string][]byte, error) {
 	var err error
 	ret := make(map[string][]byte)
