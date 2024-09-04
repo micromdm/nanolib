@@ -22,14 +22,14 @@ type KeysPrefixTraverser interface {
 
 // KeysTraversingBucket is a key-value store that can traverse keys.
 type KeysTraversingBucket interface {
-	Bucket
+	CRUDBucket
 	KeysTraverser
 }
 
 // KeysPrefixTraversingBucket is a key-value store that can traverse keys.
 // Inlcuding using a prefix.
 type KeysPrefixTraversingBucket interface {
-	Bucket
+	CRUDBucket
 	KeysTraverser
 	KeysPrefixTraverser
 }

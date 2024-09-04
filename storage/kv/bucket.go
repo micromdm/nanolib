@@ -28,8 +28,11 @@ type RWBucket interface {
 	Delete(ctx context.Context, key string) error
 }
 
-// Bucket defines simple read-write operations for key-value stores.
-type Bucket interface {
+// CRUDBucket defines simple read-write operations for key-value stores.
+type CRUDBucket interface {
 	ROBucket
 	RWBucket
 }
+
+// Bucket is an alias for any commonly used key-value store.
+type Bucket = CRUDBucket

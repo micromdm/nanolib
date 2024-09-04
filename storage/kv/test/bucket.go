@@ -9,7 +9,7 @@ import (
 	"github.com/micromdm/nanolib/storage/kv"
 )
 
-func TestBucketSimple(t *testing.T, ctx context.Context, b kv.Bucket) {
+func TestBucketSimple(t *testing.T, ctx context.Context, b kv.CRUDBucket) {
 	const testKey1 = "test_key_1"
 	const testKey2 = "test_key_2"
 	const testValue1 = "test_value_1"
