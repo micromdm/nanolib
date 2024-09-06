@@ -11,7 +11,7 @@ import (
 func TestNop(t *testing.T) {
 	ctx := context.Background()
 	b := NewNopTxn(kvmap.New())
-	bt, err := b.BeginBucketTxn(ctx)
+	bt, err := b.BeginCRUDBucketTxn(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}

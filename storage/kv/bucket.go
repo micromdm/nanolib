@@ -33,6 +33,3 @@ type CRUDBucket interface {
 	ROBucket
 	RWBucket
 }
-
-// Bucket is an alias for any commonly used key-value store.
-type Bucket = CRUDBucket

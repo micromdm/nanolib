@@ -9,7 +9,7 @@ import (
 	"github.com/micromdm/nanolib/storage/kv"
 )
 
-func TestTxnSimple(t *testing.T, ctx context.Context, b kv.BucketTxnBucket) {
+func TestTxnSimple(t *testing.T, ctx context.Context, b kv.TxnCRUDBucket) {
 	// first, set a value in the "parent" bucket
 	err := b.Set(ctx, "test-txn-key-1", []byte("test-txn-val-1"))
 	if err != nil {
@@ -26,7 +26,7 @@ func TestTxnSimple(t *testing.T, ctx context.Context, b kv.BucketTxnBucket) {
 	}
 
 	// create a txn
-	bt, err := b.BeginBucketTxn(ctx)
+	bt, err := b.BeginCRUDBucketTxn(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -93,7 +93,7 @@ func TestTxnSimple(t *testing.T, ctx context.Context, b kv.BucketTxnBucket) {
 	}
 
 	// lets make a new txn
-	bt, err = b.BeginBucketTxn(ctx)
+	bt, err = b.BeginCRUDBucketTxn(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -145,7 +145,7 @@ func slicesEqual[T comparable](a, b []T) bool {
 	return true
 }
 
-func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.KeysPrefixTraversingBucketTxnBucket) {
+func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.TxnKeysPrefixTraversingBucket) {
 	err := b.Set(ctx, "hello", []byte("dlrow"))
 	if err != nil {
 		t.Fatal(err)

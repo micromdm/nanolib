@@ -33,3 +33,6 @@ type KeysPrefixTraversingBucket interface {
 	KeysTraverser
 	KeysPrefixTraverser
 }
+
+// Bucket is an alias for any commonly used key-value store.
+type Bucket = KeysPrefixTraversingBucket

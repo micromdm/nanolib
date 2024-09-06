@@ -31,13 +31,19 @@ func (b *KVTxn) Rollback(context.Context) error {
 	return nil
 }
 
-// KeysPrefixTraversingBucketTxn creates a new in-memory transacting key-value store that wraps the same store that b wraps.
+// BeginKeysPrefixTraversingBucketTxn creates a new in-memory transacting key-value store that wraps the same store that b wraps.
 // Auto-commit is turned off for the new store (allowing staged operations).
 func (b *KVTxn) BeginKeysPrefixTraversingBucketTxn(context.Context) (kv.KeysPrefixTraversingBucketTxnCompleter, error) {
 	return new(b.store, b.keyLock, false), nil
 }
 
-// BucketTxn creates a new in-memory transacting key-value store that wraps the same store that b wraps.
+// BeginCRUDBucketTxn creates a new in-memory transacting key-value store that wraps the same store that b wraps.
+// Auto-commit is turned off for the new store (allowing staged operations).
+func (b *KVTxn) BeginCRUDBucketTxn(context.Context) (kv.CRUDBucketTxnCompleter, error) {
+	return new(b.store, b.keyLock, false), nil
+}
+
+// BeginBucketTxn creates a new in-memory transacting key-value store that wraps the same store that b wraps.
 // Auto-commit is turned off for the new store (allowing staged operations).
 func (b *KVTxn) BeginBucketTxn(context.Context) (kv.BucketTxnCompleter, error) {
 	return new(b.store, b.keyLock, false), nil

@@ -19,13 +19,18 @@ func NewNopTxn(b kv.KeysPrefixTraversingBucket) *NopTxn {
 	return &NopTxn{KeysPrefixTraversingBucket: b}
 }
 
-// BeginBucketTxn simply returns b.
-func (b *NopTxn) BeginBucketTxn(context.Context) (kv.BucketTxnCompleter, error) {
+// BeginCRUDBucketTxn simply returns b.
+func (b *NopTxn) BeginCRUDBucketTxn(context.Context) (kv.CRUDBucketTxnCompleter, error) {
 	return b, nil
 }
 
 // BeginKeysPrefixTraversingBucketTxn simply returns b.
 func (b *NopTxn) BeginKeysPrefixTraversingBucketTxn(context.Context) (kv.KeysPrefixTraversingBucketTxnCompleter, error) {
+	return b, nil
+}
+
+// BeginBucketTxn simply returns b.
+func (b *NopTxn) BeginBucketTxn(context.Context) (kv.BucketTxnCompleter, error) {
 	return b, nil
 }
 
