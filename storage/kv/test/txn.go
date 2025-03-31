@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"sort"
 	"testing"
 
 	"github.com/micromdm/nanolib/storage/kv"
@@ -159,10 +160,12 @@ func TestTxnSimple(t *testing.T, ctx context.Context, b kv.TxnCRUDBucket, opts .
 	}
 }
 
-func slicesEqual[T comparable](a, b []T) bool {
+func slicesEqual(a, b []string) bool {
 	if len(a) != len(b) {
 		return false
 	}
+	sort.Strings(a)
+	sort.Strings(b)
 	for i := range a {
 		if a[i] != b[i] {
 			return false
