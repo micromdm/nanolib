@@ -209,4 +209,18 @@ func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.TxnKeysPrefixTraversi
 	if want, have := []string{"hello"}, keys; !slicesEqual(want, have) {
 		t.Errorf("want: %v, have: %v", want, have)
 	}
+
+	// a different test: KeysPrefix within a txn
+	err = kv.SetMap(ctx, bt, map[string][]byte{
+		"hello": []byte("world"),
+		"foo":   []byte("bar"),
+		"help":  []byte("i need somebody"),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	keys = kv.AllKeysPrefix(ctx, bt, "hel")
+	if want, have := []string{"hello", "help"}, keys; !slicesEqual(want, have) {
+		t.Errorf("want: %v, have: %v", want, have)
+	}
 }

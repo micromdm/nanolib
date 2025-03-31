@@ -2,6 +2,7 @@ package kvtxn
 
 import (
 	"context"
+	"strings"
 )
 
 // Keys returns all keys in the underlying key-value store merging with the operations stage.
@@ -10,7 +11,7 @@ import (
 // Beware of deadlocks with underlying implementations.
 // Note that key-based stage locks are not consulted.
 func (b *KVTxn) Keys(ctx context.Context, cancel <-chan struct{}) <-chan string {
-	return b.keysWithStagedKeys(b.store.Keys(ctx, cancel), cancel)
+	return b.keysWithStagedKeys(b.store.Keys(ctx, cancel), "", cancel)
 }
 
 // Keys returns all keys starting with prefix in the underlying key-value store merging with the operations stage.
@@ -19,14 +20,18 @@ func (b *KVTxn) Keys(ctx context.Context, cancel <-chan struct{}) <-chan string 
 // Beware of deadlocks with underlying implementations.
 // Note that key-based stage locks are not consulted.
 func (b *KVTxn) KeysPrefix(ctx context.Context, prefix string, cancel <-chan struct{}) <-chan string {
-	return b.keysWithStagedKeys(b.store.KeysPrefix(ctx, prefix, cancel), cancel)
+	return b.keysWithStagedKeys(b.store.KeysPrefix(ctx, prefix, cancel), prefix, cancel)
 }
 
-// stageKeys returns a slice of all staged keys.
-// Keys that have a delete operation are not included if noDel is true.
-func (b *KVTxn) stageKeys(skipDeleted bool) []string {
+// stageKeys returns a slice of all staged keys with prefix.
+// If prefix is empty then all staged keys are returned.
+// Keys that have a delete operation are not included if skipDeleted is true.
+func (b *KVTxn) stageKeys(prefix string, skipDeleted bool) []string {
 	var r []string
 	for k, v := range b.stageKeyOps {
+		if prefix != "" && !strings.HasPrefix(k, prefix) {
+			continue
+		}
 		if v.del && skipDeleted {
 			continue
 		}
@@ -36,7 +41,7 @@ func (b *KVTxn) stageKeys(skipDeleted bool) []string {
 }
 
 // keysWithStagedKeys returns a merged set from inKeys and keys from staged operations.
-func (b *KVTxn) keysWithStagedKeys(inKeys <-chan string, cancel <-chan struct{}) <-chan string {
+func (b *KVTxn) keysWithStagedKeys(inKeys <-chan string, prefix string, cancel <-chan struct{}) <-chan string {
 	r := make(chan string)
 	go func() {
 		defer close(r)
@@ -56,7 +61,7 @@ func (b *KVTxn) keysWithStagedKeys(inKeys <-chan string, cancel <-chan struct{})
 		}
 		b.stageLock.RLock()
 		// retreive all of our staged keys (minus the staged deletions)
-		for _, k := range b.stageKeys(true) {
+		for _, k := range b.stageKeys(prefix, true) {
 			select {
 			case <-cancel:
 				return
