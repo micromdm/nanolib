@@ -70,3 +70,9 @@ type TxnBucket interface {
 	BucketTxnBeginner
 	BucketTxnCompleter
 }
+
+// TxnBucketWithCRUD supports starting both CRUD and keys-prefix transactions.
+type TxnBucketWithCRUD interface {
+	TxnCRUDBucket
+	TxnBucket
+}
