@@ -214,6 +214,11 @@ func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.TxnKeysPrefixTraversi
 	}
 
 	// a different test: KeysPrefix within a txn
+	// start a new txn
+	bt, err = b.BeginKeysPrefixTraversingBucketTxn(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 	err = kv.SetMap(ctx, bt, map[string][]byte{
 		"hello": []byte("world"),
 		"foo":   []byte("bar"),
