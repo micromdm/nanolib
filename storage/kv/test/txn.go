@@ -231,4 +231,8 @@ func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.TxnKeysPrefixTraversi
 	if want, have := []string{"hello", "help"}, keys; !slicesEqual(want, have) {
 		t.Errorf("want: %v, have: %v", want, have)
 	}
+	err = bt.Rollback(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 }
