@@ -103,9 +103,11 @@ func Parse(prefix string, excluded []string) {
 // replaced with underscores.
 func nameToEnv(name string) string {
 	var b strings.Builder
-	for _, r := range strings.ToUpper(name) {
+	for _, r := range name {
 		if (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') {
 			b.WriteRune(r)
+		} else if r >= 'a' && r <= 'z' {
+			b.WriteRune(r - 32) // uppercase
 		} else {
 			b.WriteRune('_')
 		}
