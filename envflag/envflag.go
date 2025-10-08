@@ -75,7 +75,7 @@ func ParseFlagSet(fs *flag.FlagSet, args []string, prefix string, environ []stri
 		fmt.Fprintln(fs.Output(), err.Error())
 		fs.Usage()
 		// switch behavior taken from stdlib flagset Parse() method
-		switch flag.CommandLine.ErrorHandling() {
+		switch fs.ErrorHandling() {
 		case flag.ContinueOnError:
 			return err
 		case flag.ExitOnError:
