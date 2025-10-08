@@ -38,17 +38,17 @@ func PreParseFlagSet(fs *flag.FlagSet, prefix string, environ []string, excluded
 
 		envName := nameToEnv(prefix + f.Name)
 
-		var envSet string
+		var envIsSet string
 		if value, ok := env[envName]; ok {
 			// this flag has a currently set envvar
 			flagsToSet[f.Name] = value
 
 			// indicate a set envvar to user
 			// don't show actual value; may have sensitive flags
-			envSet = " is set"
+			envIsSet = " is set"
 		}
 
-		f.Usage += fmt.Sprintf(" [%s%s]", envName, envSet)
+		f.Usage += fmt.Sprintf(" [%s%s]", envName, envIsSet)
 	})
 
 	for name, value := range flagsToSet {
