@@ -113,6 +113,9 @@ func (l *Logger) Debug(args ...interface{}) {
 // With returns a new nested Logger that logs to the standard Go logger.
 func (l *Logger) With(args ...interface{}) log.Logger {
 	l2 := *l
-	l2.context = append(l2.context, args...)
+	newContext := make([]interface{}, len(l.context), len(l.context)+len(args))
+	copy(newContext, l.context)
+	l2.context = append(newContext, args...)
+
 	return &l2
 }
